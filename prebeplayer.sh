@@ -1,5 +1,5 @@
 #!/bin/bash
-#interfaces con zenity
+
 
 mpg123=$(apt list --installed | grep "mpg123");
 
@@ -21,7 +21,6 @@ do
 opc=$(zenity --width=500 --height=250 --title=PREBEPLAYER --entry --text=" Introduce una opción
 	1) Reproducir Musica en otra carpeta
 	2) Reproducir musica en carpeta actual
-	3)Controles
 	0) Salir "
 )
 case $opc in
@@ -29,28 +28,14 @@ case $opc in
 	carpeta=$(zenity --entry --text "Ingresa la ruta de tu carpeta")
 	cd $carpeta;
 	(
-	mpg123 -vC *.mp3; pro=$(zenity --width=500 --height=250 --title=PREBEPLAYER --entry --text=" Introduce una opción
-		1) Salir
-		2) Siguiente
-		3) Anterior
-		4) Pausa "
-		)
+	mpg123 -vC *.mp3 | pro=$(zenity --notification --text "PREBEPLAYER REPRODUCIENDO")
 
-case $pro in
-"1")
-#xdotool --shell key alt+c;
-killall mpg123;
-#xvkbd -xsendevent -window $b -text "\[F]"
-;;
-esac
-;;
+
+
 "2")
-(
-mpg123 -vzC *.mp3
-)|
-zenity --progress --auto-close --list --column "Controles"
-"f. siguiente"
-title="PREBEPLAYER Reproduciendo"
+	mpg123 -vC *.mp3 | pro=$(zenity --notification --text "PREBEPLAYER REPRODUCIENDO")
+
+
 ;;
 
 "0")
